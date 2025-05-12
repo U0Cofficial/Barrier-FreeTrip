@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="main" element={<Mainpage />} />
+            <Route path="/" element={<Mainpage />} />
           </Route>
         </Routes>
       </Router>
