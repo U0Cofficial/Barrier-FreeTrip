@@ -21,8 +21,10 @@ function Mainpage() {
             <br />
             당신의 이야기를 채울 새로운 여행을 시작해보세요.
           </p>
-          <button >
-            <Mainbutton />
+          <button>
+            <a href="/main">
+              <Mainbutton />
+            </a>
           </button>
         </div>
         <div className="relative w-[1095px] h-[770px] overflow-hidden ">
