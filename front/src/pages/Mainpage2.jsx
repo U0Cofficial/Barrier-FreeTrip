@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ReactComponent as Mainpage2 } from "../../src/assets/mainpage2.svg";
+import { Link } from "react-router-dom";
 
 const options = {
-  disabilityTypes: ["지체장애", "청각장애", "시각장애", "지적장애", "기타"],
+  disabilityTypes: ["하지 장애인", "기타"],
   barrierFreeOptions: [
     "객실 문제 없음",
     "넓은 출입문",
@@ -17,6 +17,8 @@ const options = {
     "지하철",
     "지하철/기타",
   ],
+
+  travelTypes: ["단체 여행", "가족 여행", "커플 여행", "혼자 여행"],
 };
 
 const SectionSelector = ({
@@ -25,6 +27,7 @@ const SectionSelector = ({
   options,
   selectedOptions,
   setSelectedOptions,
+  travelTypes,
 }) => {
   const handleChange = (option) => {
     if (selectedOptions.includes(option)) {
@@ -35,7 +38,7 @@ const SectionSelector = ({
   };
 
   return (
-    <div className="p-4 border rounded-lg mb-4 bg-green-100">
+    <div className="p-4 border rounded-lg mb-4 bg-white">
       <h3 className="text-xl font-semibold mb-2">
         <span className="text-green-500 font-bold mr-2">{step}</span>
         {title}
@@ -62,6 +65,7 @@ const TravelPlanPage = () => {
   const [barrierFreeOptions, setBarrierFreeOptions] = useState([]);
   const [transportOptions, setTransportOptions] = useState([]);
   const [destination, setDestination] = useState("");
+  const [travelTypes, setTravelTypes] = useState([]);
 
   const handleSubmit = () => {
     console.log({
@@ -73,9 +77,9 @@ const TravelPlanPage = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100 ">
       <div
-        className="relative w-full h-[500px] bg-cover bg-center"
+        className="relative w-full h-[500px] bg-cover bg-gray-200 "
         style={{
           backgroundImage: `url("/mainpage2.svg")`,
         }}
@@ -86,18 +90,17 @@ const TravelPlanPage = () => {
           <h2 className="text-2xl">함께 여행을 계획해봐요</h2>
 
           <div className="mt-8 w-[500px] flex items-center bg-white rounded-full overflow-hidden shadow-md">
-            <Mainpage2 className="w-6 h-6 text-gray-500 ml-4" />
+            <div className="flex text-center w-6 h-6 text-gray-500 ml-4" />
             <input
               type="text"
               placeholder="여행을 시작할 날짜를 찾아볼 날짜를 선택하세요."
-              className="w-full px-4 py-3 text-gray-700 focus:outline-none"
+              className="w-full px-4 py-3 text-gray-700 text-center focus:outline-none"
             />
           </div>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">여행 계획하기</h2>
+      <div className="max-w-3xl mt-10 mx-auto  p-6 rounded-lg ">
         <SectionSelector
           step="01"
           title="장애유형 선택"
@@ -106,7 +109,7 @@ const TravelPlanPage = () => {
           setSelectedOptions={setDisabilityTypes}
         />
 
-        <div className="p-4 border rounded-lg mb-4">
+        <div className="p-4 border rounded-lg mb-4 bg-white">
           <h3 className="text-xl font-semibold mb-2">
             <span className="text-green-500 font-bold mr-2">02</span>여행지 선택
           </h3>
@@ -134,13 +137,23 @@ const TravelPlanPage = () => {
           selectedOptions={transportOptions}
           setSelectedOptions={setTransportOptions}
         />
-
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-green-500 text-white p-3 rounded-lg mt-4 hover:bg-green-600 transition-all"
-        >
-          여행찾기
-        </button>
+        <SectionSelector
+          step="05"
+          title="여행 유형"
+          options={options.travelTypes}
+          selectedOptions={travelTypes}
+          setSelectedOptions={travelTypes}
+        />
+        <div className="flex items-center justify-center mt-4">
+          <Link to="/accessible-travel">
+            <button
+              onClick={handleSubmit}
+              className="w-[334px] h-[121px] text-[34px] bg-green-500 text-white p-3 rounded-lg mt-4 hover:bg-green-600 transition-all"
+            >
+              여행찾기
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
