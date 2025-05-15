@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { userState } from "../atoms/userAtom";
+
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -6,12 +10,14 @@ export default function LoginPage() {
     password: "",
   });
   const [message, setMessage] = useState("");
-  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useRecoilState(userState);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -28,8 +34,15 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        setUserId(data.userId);
+        setUser({ id: data.userId, name: data.name });
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ id: data.userId, name: data.name })
+        );
         setMessage("✅ 로그인 성공!");
+        setTimeout(() => {
+          navigate("/mainpage");
+        }, 1500);
       } else {
         setMessage(`❌ 오류: ${data.error}`);
       }
@@ -71,7 +84,8 @@ export default function LoginPage() {
 
       {message && (
         <p className="mt-4 text-center text-sm text-gray-700">
-          {message} {userId && `(userId: ${userId})`}
+          {message}
+          {/* {userId && `(userId: ${userId})`} */}
         </p>
       )}
     </div>

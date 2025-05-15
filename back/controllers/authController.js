@@ -39,6 +39,7 @@ exports.login = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: "Wrong password" });
 
-    res.status(200).json({ userId: user.id });
+    res.status(200).json({ userId: user.id,name: user.name });
   });
 };
+

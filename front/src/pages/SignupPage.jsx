@@ -36,7 +36,7 @@ export default function SignupPage() {
         setMessage(`✅ 회원가입 성공! 사용자 ID: ${data.userId}`);
         setTimeout(() => {
         navigate("/login"); 
-        }, 1500); 
+        }, 1500); // 1.5초 후 이동 (메시지 잠깐 보여주기
       } else {
         setMessage(`❌ 오류: ${data.error}`);
       }

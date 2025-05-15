@@ -2,7 +2,9 @@ import React from "react";
 import { ReactComponent as Mainimage } from "../../src/assets/mainimage.svg";
 import { ReactComponent as Mainbutton } from "../../src/assets/mainbutton.svg";
 
+
 function Mainpage() {
+
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center bg-white px-40 py-20">
