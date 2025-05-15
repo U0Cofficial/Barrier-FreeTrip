@@ -20,15 +20,18 @@ export default function Header() {
       <div className="max-w-full mx-auto px-3 border-b-1 px-6">
         <div className="flex items-center gap-5 justify-between py-3 border-b-[1px]">
           {/* 로고 */}
-          <div>
-            <Logo className="w-[236px] h-[56px]" />
+          <div
+              onClick={() => navigate("/mainpage")}>
+            <Logo className="w-[236px] h-[56px]"
+            />
           </div>
 
           {/* 네비게이션 */}
           <div className="flex items-center gap-[78px]">
-            <div className="text-[20px] font-semibold text-[#1F2937]">
-              <a href="/">여행추천</a>
-            </div>
+            <button className="text-[20px] font-semibold text-[#1F2937]"
+            onClick={() => navigate("/OptionPage")}>
+              여행추천
+            </button>
             <div className="text-[20px] font-semibold text-[#1F2937]">
               <a href="/about">여행지원</a>
             </div>

@@ -1,7 +1,10 @@
 import React from "react";
 import bgImage from "../../src/assets/bg.png";
+import { useRecoilState } from "recoil";
+import { userState } from "../atoms/userAtom";
 
 export default function AccessibleTravelPage() {
+  const [user, setUser] = useRecoilState(userState);
   return (
     <div className="min-h-screen font-sans">
       <div
@@ -11,7 +14,7 @@ export default function AccessibleTravelPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-green-800/60 to-green-500/40 z-0"></div>
         <div className="absolute inset-0 flex flex-col justify-center pl-20 z-10 gap-5">
           <h1 className="text-[50px] md:text-[50px] font-bold mb-40">
-            정유영님을 위한 맞춤 여행계획입니다.
+            {user.name}님을 위한 맞춤 여행계획입니다.
           </h1>
           <h2 className="text-[58px] md:text-[58px] font-bold">
             제주도 여행

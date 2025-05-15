@@ -8,7 +8,7 @@ function Mainpage() {
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center bg-white px-40 py-20">
-        <div className="flex flex-col max-w-md space-y-6">
+        <div className="flex ml-8 flex-col max-w-md space-y-6 gap-7 ">
           <h1 className="text-4xl font-bold text-black">
             모두를 위한 여행, 당신만의 <br /> 완벽한 계획을 세워보세요.
           </h1>
@@ -23,13 +23,14 @@ function Mainpage() {
             <br />
             당신의 이야기를 채울 새로운 여행을 시작해보세요.
           </p>
-          <button>
-            <a href="/main">
+          <button
+          className="pt-20">
+            <a href="/OptionPage">
               <Mainbutton />
             </a>
           </button>
         </div>
-        <div className="relative w-[1095px] h-[770px] overflow-hidden ">
+        <div className=" relative w-[1095px] h-[770px] overflow-hidden ">
           <Mainimage className="absolute inset-0 w-full h-full object-cover" />
         </div>
       </div>

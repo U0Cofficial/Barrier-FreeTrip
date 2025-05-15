@@ -2,7 +2,7 @@ import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout";
 import Mainpage from "./pages/Mainpage";
-import Mainpage2 from "./pages/Mainpage2";
+import OptionPage from "./pages/OptionPage";
 import AccessibleTravelPage from "./pages/AccessibleTravelPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -27,7 +27,7 @@ function App() {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/mainpage" element={<Mainpage />} />
-            <Route path="/main" element={<Mainpage2 />} />
+            <Route path="/OptionPage" element={<OptionPage />} />
             <Route
               path="/accessible-travel"
               element={<AccessibleTravelPage />}

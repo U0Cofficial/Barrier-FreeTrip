@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../atoms/userAtom";
 
 const options = {
   disabilityTypes: ["하지 장애인", "기타"],
@@ -17,7 +19,6 @@ const options = {
     "지하철",
     "지하철/기타",
   ],
-
   travelTypes: ["단체 여행", "가족 여행", "커플 여행", "혼자 여행"],
 };
 
@@ -27,7 +28,7 @@ const SectionSelector = ({
   options,
   selectedOptions,
   setSelectedOptions,
-  travelTypes,
+  setTravelTypes,
 }) => {
   const handleChange = (option) => {
     if (selectedOptions.includes(option)) {
@@ -60,7 +61,9 @@ const SectionSelector = ({
   );
 };
 
-const TravelPlanPage = () => {
+const OptionPage = () => {
+  const [user, setUser] = useRecoilState(userState);
+
   const [disabilityTypes, setDisabilityTypes] = useState([]);
   const [barrierFreeOptions, setBarrierFreeOptions] = useState([]);
   const [transportOptions, setTransportOptions] = useState([]);
@@ -73,6 +76,7 @@ const TravelPlanPage = () => {
       destination,
       barrierFreeOptions,
       transportOptions,
+      travelTypes,
     });
   };
 
@@ -86,14 +90,20 @@ const TravelPlanPage = () => {
       >
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-          <h1 className="text-4xl font-bold mb-2">정유영님 안녕하세요,</h1>
+          <h1 className="text-4xl font-bold mb-2">{user.name} 안녕하세요,</h1>
           <h2 className="text-2xl">함께 여행을 계획해봐요</h2>
 
           <div className="mt-8 w-[500px] flex items-center bg-white rounded-full overflow-hidden shadow-md">
             <div className="flex text-center w-6 h-6 text-gray-500 ml-4" />
             <input
-              type="text"
+              type="date"
               placeholder="여행을 시작할 날짜를 찾아볼 날짜를 선택하세요."
+              className="w-full px-4 py-3 text-gray-700 text-center focus:outline-none"
+            />
+
+            <input
+              type="date"
+              placeholder="여행을 종료할 날짜를 선택하세요."
               className="w-full px-4 py-3 text-gray-700 text-center focus:outline-none"
             />
           </div>
@@ -142,7 +152,7 @@ const TravelPlanPage = () => {
           title="여행 유형"
           options={options.travelTypes}
           selectedOptions={travelTypes}
-          setSelectedOptions={travelTypes}
+          setSelectedOptions={setTravelTypes}
         />
         <div className="flex items-center justify-center mt-4">
           <Link to="/accessible-travel">
@@ -159,4 +169,4 @@ const TravelPlanPage = () => {
   );
 };
 
-export default TravelPlanPage;
+export default OptionPage;
