@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userState } from "../atoms/userAtom";
+import { useSetRecoilState } from "recoil";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -8,7 +10,7 @@ export default function SignupPage() {
     password: "",
   });
   const navigate = useNavigate();
-
+  const setUser = useSetRecoilState(userState);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -34,9 +36,12 @@ export default function SignupPage() {
 
       if (res.ok) {
         setMessage(`✅ 회원가입 성공! 사용자 ID: ${data.userId}`);
-        setTimeout(() => {
-        navigate("/login"); 
-        }, 1500); // 1.5초 후 이동 (메시지 잠깐 보여주기
+        setUser({ id: data.userId, name: formData.name });
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ id: data.userId, name: formData.name })
+        );
+        navigate("/mainpage");
       } else {
         setMessage(`❌ 오류: ${data.error}`);
       }
