@@ -1,43 +1,57 @@
-const db = require("../db/database");
-const { askOpenAI } = require("../utils/openaiClient");
+require("dotenv").config();
+const OpenAI = require("openai");
 
-exports.recommendTravel = async (req, res) => {
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  project: process.env.OPENAI_PROJECT_ID,
+});
+
+exports.getTravelRecommendation = async (req, res) => {
   const {
-    userId,
-    date,
     disabilityType,
     destination,
     barrierFreeOptions,
     transportOptions,
     travelType,
+    startDate,
+    endDate,
   } = req.body;
 
-  const userPrompt = `
-  여행 유형: ${travelType}
-  여행 날짜: ${date}
-  장애유형: ${disabilityType}
-  여행지: ${destination}
-  무장애 옵션: ${barrierFreeOptions.join(", ")}
-  이동수단: ${transportOptions.join(", ")}
+  const prompt = `
+당신은 장애인 친화 여행지를 추천해주는 전문가입니다.
+다음 조건에 맞춰 여행지를 추천해주세요:
 
-  위 조건에 맞는 국내 여행지를 1곳 추천해주고, 다음 항목을 포함해서 답해줘:
-  - 여행지 이름
-  - 여행지 소개
-  - 장애인 주차장/화장실/숙소 접근성 정보
-  `;
+- 희망 지역: ${destination}
+- 장애 유형: ${disabilityType}
+- 무장애 옵션: ${barrierFreeOptions.join(", ")}
+- 이동 수단: ${transportOptions.join(", ")}
+- 여행 유형: ${travelType}
+- 여행 기간: ${startDate} ~ ${endDate}
+
+JSON 형식 예시:
+{
+  "title": "추천 여행지 이름",
+  "description": "소개 및 추천 이유",
+  "access": {
+    "장애인 화장실": true,
+    "장애인 주차장": true,
+    "휠체어 접근": true
+  }
+}`;
 
   try {
-    const aiResponse = await askOpenAI(userPrompt);
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+    });
 
-    db.run(
-      `INSERT INTO travel_recommendations (user_id, prompt, response) VALUES (?, ?, ?)`,
-      [userId, userPrompt, aiResponse],
-      function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-        res.status(200).json({ recommendation: aiResponse });
-      }
-    );
-  } catch (e) {
-    res.status(500).json({ error: "OpenAI API error" });
+    const reply = completion.choices[0].message.content;
+    const result = JSON.parse(reply);
+
+    res.json(result);
+  } catch (err) {
+    console.error("OpenAI 오류:", err.message);
+    res.status(500).json({ error: "추천 생성 실패" });
   }
 };

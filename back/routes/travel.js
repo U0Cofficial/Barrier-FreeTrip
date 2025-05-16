@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { recommendTravel } = require("../controllers/travelController");
+const { getTravelRecommendation } = require("../controllers/travelController");
 
-router.post("/recommend", recommendTravel);
+router.post("/recommend", getTravelRecommendation);
 module.exports = router;
