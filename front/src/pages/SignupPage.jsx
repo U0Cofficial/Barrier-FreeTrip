@@ -51,7 +51,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow-md border">
+    <div className="max-w-[700px] mx-auto mt-20 mb-20 p-6 bg-white rounded shadow-md border">
       <h2 className="text-2xl font-bold mb-4 text-center">회원가입</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -84,7 +84,7 @@ export default function SignupPage() {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-green-500 text-white py-2 rounded hover:bg-blue-600"
         >
           회원가입
         </button>

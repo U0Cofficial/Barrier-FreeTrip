@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { userState } from "./atoms/userAtom";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -19,6 +20,7 @@ function App() {
       setUser(JSON.parse(stored));
     }
   }, []);
+
   return (
     <div className="App">
       <Router>
@@ -26,11 +28,17 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/" element={<LoginPage />} />
-            <Route path="/mainpage" element={<Mainpage />} />
-            <Route path="/OptionPage" element={<OptionPage />} />
+            <Route
+              path="/mainpage"
+              element={<PrivateRoute element={<Mainpage />} />}
+            />
+            <Route
+              path="/OptionPage"
+              element={<PrivateRoute element={<OptionPage />} />}
+            />
             <Route
               path="/accessible-travel"
-              element={<AccessibleTravelPage />}
+              element={<PrivateRoute element={<AccessibleTravelPage />} />}
             />
           </Route>
         </Routes>
