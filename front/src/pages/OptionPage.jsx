@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atoms/userAtom";
-import PrivateRoute from "../components/PrivateRoute";
 
 const options = {
   disabilityTypes: ["하지 장애인", "기타"],

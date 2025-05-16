@@ -57,7 +57,7 @@ export default function Header() {
               <>
                 <Login className="w-[24px] h-[24px]" />
                 <div className="text-[20px] font-semibold text-[#818181]">
-                  <a href="/">로그인</a>
+                  <a href="/login">로그인</a>
                 </div>
                 <div className="text-[20px] font-semibold text-[#818181]">
                   <a href="/signup">회원가입</a>
