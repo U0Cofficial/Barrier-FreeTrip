@@ -19,11 +19,10 @@ export default function Header() {
       <div className="max-w-full mx-auto px-3 border-b-1 px-6">
         <div className="flex items-center gap-5 justify-between py-3 border-b-[1px]">
           {/* 로고 */}
-          <div onClick={() => navigate(user && user.id ? "/mainpage" : "/")}> 
+          <div onClick={() => navigate(user && user.id ? "/mainpage" : "/")}>
             <Logo className="w-[236px] h-[56px]" />
           </div>
 
-          {/* 네비게이션 */}
           <div className="flex items-center gap-[78px]">
             <button
               className="text-[20px] font-semibold text-[#1F2937]"
@@ -31,18 +30,25 @@ export default function Header() {
             >
               여행추천
             </button>
-            <div className="text-[20px] font-semibold text-[#1F2937]">
-              <a href="/about">여행지원</a>
-            </div>
-            <div className="text-[20px] font-semibold text-[#1F2937]">
-              <a href="/contact">커뮤니티</a>
-            </div>
+
+            <button
+              className="text-[20px] font-semibold text-[#1F2937]"
+              onClick={() => navigate("/CommunityPage")}
+            >
+              커뮤니티
+            </button>
             <div className="text-[20px] font-semibold text-[#1F2937]">
               <a href="/blog">여행시설 평가</a>
             </div>
             <div className="text-[20px] font-semibold text-[#1F2937]">
               <a href="/blog">나의 여정</a>
             </div>
+            <button
+              className="text-[20px] font-semibold text-[#1F2937]"
+              onClick={() => navigate("/AssistancePage")}
+            >
+              여행지원
+            </button>
           </div>
 
           {/* 로그인 or 로그아웃 */}
