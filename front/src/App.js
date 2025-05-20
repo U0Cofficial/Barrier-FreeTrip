@@ -6,6 +6,9 @@ import OptionPage from "./pages/OptionPage";
 import AccessibleTravelPage from "./pages/AccessibleTravelPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import PrivateRoute from "./components/PrivateRoute";
+import HomeRedirect from "./components/HomeRedirect";
+
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { userState } from "./atoms/userAtom";
@@ -13,28 +16,35 @@ import { userState } from "./atoms/userAtom";
 function App() {
   const setUser = useSetRecoilState(userState);
 
-  // 앱 시작 시 localStorage에서 사용자 정보 불러와 전역 상태에 저장
   useEffect(() => {
     const stored = localStorage.getItem("user");
     if (stored) {
-      setUser(JSON.parse(stored));
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.id) {
+          setUser(parsed);
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        setUser(null);
+      }
+    } else {
+      setUser(null);
     }
   }, []);
 
   return (
     <div className="App">
       <Router>
-        {/* 라우팅 설정: 각 경로별로 페이지 컴포넌트 렌더링 */}
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/signup" element={<SignupPage />} /> {/* 회원가입 페이지 */}
-            <Route path="/" element={<LoginPage />} /> {/* 로그인 페이지 */}
-            <Route path="/mainpage" element={<Mainpage />} /> {/* 메인 페이지 */}
-            <Route path="/OptionPage" element={<OptionPage />} /> {/* 옵션 선택 페이지 */}
-            <Route
-              path="/accessible-travel"
-              element={<AccessibleTravelPage />}
-            /> {/* 배리어프리 여행 페이지 */}
+            <Route index element={<HomeRedirect />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="mainpage" element={<PrivateRoute element={<Mainpage />} />} />
+            <Route path="OptionPage" element={<PrivateRoute element={<OptionPage />} />} />
+            <Route path="accessible-travel" element={<PrivateRoute element={<AccessibleTravelPage />} />} />
           </Route>
         </Routes>
       </Router>

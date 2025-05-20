@@ -2,6 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./barrierfree.db");
 
 db.serialize(() => {
+
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,12 +12,19 @@ db.serialize(() => {
     );
   `);
 
+  db.run(`DROP TABLE IF EXISTS travel_recommendations;`);
+
   db.run(`
-    CREATE TABLE IF NOT EXISTS travel_recommendations (
+    CREATE TABLE travel_recommendations (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER,
-      prompt TEXT,
-      response TEXT,
+      title TEXT,
+      description TEXT,
+      period TEXT,
+      transport_recommendation TEXT,
+      access_info TEXT,
+      input_json TEXT,
+      
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
