@@ -1,10 +1,13 @@
 import React from "react";
 import { ReactComponent as Mainimage } from "../../src/assets/mainimage.svg";
 import { ReactComponent as Mainbutton } from "../../src/assets/mainbutton.svg";
-
+import { useNavigate } from "react-router-dom";
 
 function Mainpage() {
-
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/OptionPage");
+  };
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center bg-white px-40 py-20">
@@ -23,11 +26,8 @@ function Mainpage() {
             <br />
             당신의 이야기를 채울 새로운 여행을 시작해보세요.
           </p>
-          <button
-          className="pt-20">
-            <a href="/OptionPage">
-              <Mainbutton />
-            </a>
+          <button className="pt-20" onClick={handleClick}>
+            <Mainbutton />
           </button>
         </div>
         <div className=" relative w-[1095px] h-[770px] overflow-hidden ">

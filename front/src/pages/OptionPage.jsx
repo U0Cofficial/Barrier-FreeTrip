@@ -1,35 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atoms/userAtom";
+import { useNavigate } from "react-router-dom";
 
 const options = {
-  disabilityTypes: ["하지 장애인", "기타"],
+  disabilityTypes: ["하지 장애인"],
   barrierFreeOptions: [
-    "객실 문제 없음",
-    "넓은 출입문",
-    "긴급 호출 버튼",
-    "장애인 화장실",
+    "장애인 전용 주차 공간",
+    "장애인 전용 엘리베이터",
+    "장애인 전용 화장실",
     "높이 조절 가능한 침대",
-    "시각 장애인용 점자",
   ],
   transportOptions: [
-    "장애인 전용 차량 서비스",
-    "장애인 렌터카 서비스",
-    "지하철",
-    "지하철/기타",
+    "휠체어 접근 가능한 차량 렌트",
+    "휠체어 전용 택시",
+    "휠체어 전용 버스",
+    "휠체어 전용 기차",
   ],
   travelTypes: ["단체 여행", "가족 여행", "커플 여행", "혼자 여행"],
 };
 
-const SectionSelector = ({
-  step,
-  title,
-  options,
-  selectedOptions,
-  setSelectedOptions,
-  setTravelTypes,
-}) => {
+const SectionSelector = ({ step, title, options, selectedOptions, setSelectedOptions }) => {
   const handleChange = (option) => {
     if (selectedOptions.includes(option)) {
       setSelectedOptions(selectedOptions.filter((item) => item !== option));
@@ -62,55 +53,77 @@ const SectionSelector = ({
 };
 
 const OptionPage = () => {
-  const [user, setUser] = useRecoilState(userState);
-
+  const [user] = useRecoilState(userState);
   const [disabilityTypes, setDisabilityTypes] = useState([]);
   const [barrierFreeOptions, setBarrierFreeOptions] = useState([]);
   const [transportOptions, setTransportOptions] = useState([]);
   const [destination, setDestination] = useState("");
   const [travelTypes, setTravelTypes] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    console.log({
-      disabilityTypes,
+  const handleSubmit = async () => {
+    const requestData = {
+      userId: user.id,
+      disabilityType: disabilityTypes[0] || "",
       destination,
       barrierFreeOptions,
       transportOptions,
-      travelTypes,
-    });
+      travelType: travelTypes[0] || "",
+      startDate,
+      endDate,
+    };
+
+    try {
+      const res = await fetch("/api/travel/recommend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("추천 결과:", data);
+        navigate("/accessible-travel", { state: { recommendation: data.recommendation } });
+      } else {
+        alert("추천 실패: " + data.error);
+      }
+    } catch (error) {
+      console.error("서버 연결 실패", error);
+      alert("서버 오류 발생");
+    }
   };
 
   return (
-    <div className="bg-gray-100 ">
-      <div
-        className="relative w-full h-[500px] bg-cover bg-gray-200 "
-        style={{
-          backgroundImage: `url("/mainpage2.svg")`,
-        }}
-      >
+    <div className="bg-gray-100">
+      <div className="relative w-full h-[500px] bg-cover bg-gray-200" style={{ backgroundImage: `url("/mainpage2.svg")` }}>
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
           <h1 className="text-4xl font-bold mb-2">{user.name} 안녕하세요,</h1>
           <h2 className="text-2xl">함께 여행을 계획해봐요</h2>
-
-          <div className="mt-8 w-[500px] flex items-center bg-white rounded-full overflow-hidden shadow-md">
-            <div className="flex text-center w-6 h-6 text-gray-500 ml-4" />
+          <div className="mt-8 w-[500px] flex gap-4 items-center bg-white rounded-full overflow-hidden shadow-md px-6 py-3">
             <input
               type="date"
-              placeholder="여행을 시작할 날짜를 찾아볼 날짜를 선택하세요."
-              className="w-full px-4 py-3 text-gray-700 text-center focus:outline-none"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full text-gray-700 text-center focus:outline-none"
             />
-
+            <span className="text-black">~</span>
             <input
               type="date"
-              placeholder="여행을 종료할 날짜를 선택하세요."
-              className="w-full px-4 py-3 text-gray-700 text-center focus:outline-none"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full text-gray-700 text-center focus:outline-none"
             />
           </div>
         </div>
       </div>
 
-      <div className="max-w-3xl mt-10 mx-auto  p-6 rounded-lg ">
+      <div className="max-w-3xl mt-10 mx-auto p-6 rounded-lg">
         <SectionSelector
           step="01"
           title="장애유형 선택"
@@ -147,6 +160,7 @@ const OptionPage = () => {
           selectedOptions={transportOptions}
           setSelectedOptions={setTransportOptions}
         />
+
         <SectionSelector
           step="05"
           title="여행 유형"
@@ -154,15 +168,14 @@ const OptionPage = () => {
           selectedOptions={travelTypes}
           setSelectedOptions={setTravelTypes}
         />
+
         <div className="flex items-center justify-center mt-4">
-          <Link to="/accessible-travel">
-            <button
-              onClick={handleSubmit}
-              className="w-[334px] h-[121px] text-[34px] bg-green-500 text-white p-3 rounded-lg mt-4 hover:bg-green-600 transition-all"
-            >
-              여행찾기
-            </button>
-          </Link>
+          <button
+            onClick={handleSubmit}
+            className="w-[334px] h-[121px] text-[34px] bg-green-500 text-white p-3 rounded-lg mt-4 hover:bg-green-600 transition-all"
+          >
+            여행찾기
+          </button>
         </div>
       </div>
     </div>

@@ -50,8 +50,8 @@ export default function Header() {
           <div className="flex items-center gap-[20px] text-[#818181]">
             {user.id ? (
               <>
-                <span className="text-gray-600 mr-2">{user.name}님</span>
-                <button onClick={handleLogout}>로그아웃</button>
+                <span className="text-[20px] font-semibold text-[#818181] mr-2">{user.name}님</span>
+                <button className="text-[20px] font-semibold text-[#818181]" onClick={handleLogout}>로그아웃</button>
               </>
             ) : (
               <>
