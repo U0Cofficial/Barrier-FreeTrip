@@ -47,7 +47,7 @@ export default function Header() {
               className="text-[20px] font-semibold text-[#1F2937]"
               onClick={() => navigate("/EvaluationPage")}
             >
-              여행시설 평가
+                      무장애 관광지 
             </button>
             <button
               className="text-[20px] font-semibold text-[#1F2937]"
