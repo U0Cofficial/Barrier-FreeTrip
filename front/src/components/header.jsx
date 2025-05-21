@@ -37,12 +37,18 @@ export default function Header() {
             >
               커뮤니티
             </button>
-            <div className="text-[20px] font-semibold text-[#1F2937]">
-              <a href="/blog">여행시설 평가</a>
-            </div>
-            <div className="text-[20px] font-semibold text-[#1F2937]">
-              <a href="/blog">나의 여정</a>
-            </div>
+            <button
+              className="text-[20px] font-semibold text-[#1F2937]"
+              onClick={() => navigate("/ArrangementPage")}
+            >
+              나의 여행
+            </button>
+            <button
+              className="text-[20px] font-semibold text-[#1F2937]"
+              onClick={() => navigate("/EvaluationPage")}
+            >
+              여행시설 평가
+            </button>
             <button
               className="text-[20px] font-semibold text-[#1F2937]"
               onClick={() => navigate("/AssistancePage")}

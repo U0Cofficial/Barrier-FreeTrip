@@ -10,6 +10,8 @@ import HomeRedirect from "./components/HomeRedirect";
 import AccessibleTravelPage from "./pages/AccessibleTravelPage";
 import AssistancePage from "./pages/AssistancePage";
 import CommunityPage from "./pages/CommunityPage";
+import ArrangementPage from "./pages/ArrangementPage";
+import EvaluationPage from "./pages/EvaluationPage";
 
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
@@ -64,8 +66,14 @@ function App() {
               path="CommunityPage"
               element={<PrivateRoute element={<CommunityPage />} />}
             />
-
-
+            <Route
+              path="ArrangementPage"
+              element={<PrivateRoute element={<ArrangementPage />} />}
+            />
+            <Route
+              path="EvaluationPage"
+              element={<PrivateRoute element={<EvaluationPage />} />}
+            />
           </Route>
         </Routes>
       </Router>

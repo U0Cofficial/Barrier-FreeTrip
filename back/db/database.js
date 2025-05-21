@@ -12,22 +12,21 @@ db.serialize(() => {
     );
   `);
 
-  db.run(`DROP TABLE IF EXISTS travel_recommendations;`);
 
-  db.run(`
-    CREATE TABLE travel_recommendations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER,
-      title TEXT,
-      description TEXT,
-      period TEXT,
-      transport_recommendation TEXT,
-      access_info TEXT,
-      input_json TEXT,
-      
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS travel_recommendations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    title TEXT,
+    description TEXT,
+    period TEXT,
+    transport_recommendation TEXT,
+    access_info TEXT,
+    input_json TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`);
 });
 
 module.exports = db;

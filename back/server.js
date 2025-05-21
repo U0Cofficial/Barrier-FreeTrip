@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/travel", travelRoute);
 
+
 app.listen(3001, () => {
   console.log("Server running on http://localhost:3001");
 });
