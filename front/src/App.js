@@ -12,6 +12,7 @@ import AssistancePage from "./pages/AssistancePage";
 import CommunityPage from "./pages/CommunityPage";
 import ArrangementPage from "./pages/ArrangementPage";
 import EvaluationPage from "./pages/EvaluationPage";
+import CommunityFormPage from "./pages/CommunityFormPage";
 
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
@@ -36,7 +37,7 @@ function App() {
     } else {
       setUser(null);
     }
-  }, []);
+  }, [setUser]);
 
   return (
     <div className="App">
@@ -66,6 +67,8 @@ function App() {
               path="CommunityPage"
               element={<PrivateRoute element={<CommunityPage />} />}
             />
+            <Route path="/CommunityPage/new" 
+            element={<CommunityFormPage />} />
             <Route
               path="ArrangementPage"
               element={<PrivateRoute element={<ArrangementPage />} />}

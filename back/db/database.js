@@ -29,4 +29,17 @@ db.run(`
 `);
 });
 
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS community_posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      tags TEXT,
+      image TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+});
+
 module.exports = db;
