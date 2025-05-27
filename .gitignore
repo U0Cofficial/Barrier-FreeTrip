@@ -1,1 +1,2 @@
-node_modules/.cache/
+back/node_modules/
+back/package-lock.json

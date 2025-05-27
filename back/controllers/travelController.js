@@ -67,25 +67,22 @@ exports.getTravelRecommendation = async (req, res) => {
       return res.status(500).json({ error: "OpenAI 응답 파싱 실패", raw: reply });
     }
 
-    // 여러 일정 저장
-    const insertStmt = db.prepare(
-      `INSERT INTO travel_recommendations 
-        (user_id, title, description, period, transport_recommendation, access_info, input_json, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))`
-    );
-
     for (const plan of result) {
-      insertStmt.run(
-        userId,
-        plan.title,
-        plan.description,
-        plan.date,
-        plan.transportRecommendation,
-        JSON.stringify(plan.access),
-        JSON.stringify(req.body)
+      await db.query(
+        `INSERT INTO travel_recommendations 
+         (user_id, title, description, period, transport_recommendation, access_info, input_json, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
+        [
+          userId,
+          plan.title,
+          plan.description,
+          plan.date,
+          plan.transportRecommendation,
+          JSON.stringify(plan.access),
+          JSON.stringify(req.body)
+        ]
       );
     }
-    insertStmt.finalize();
 
     res.status(200).json({
       message: "추천 성공",
@@ -97,31 +94,30 @@ exports.getTravelRecommendation = async (req, res) => {
   }
 };
 
-exports.getUserRecommendations = (req, res) => {
+exports.getUserRecommendations = async (req, res) => {
   const userId = req.params.userId;
-  db.all(
-    `SELECT id, title, description, period, transport_recommendation, access_info, created_at 
-     FROM travel_recommendations 
-     WHERE user_id = ? 
-     ORDER BY created_at DESC`,
-    [userId],
-    (err, rows) => {
-      if (err) {
-        console.error("DB 조회 실패:", err.message);
-        return res.status(500).json({ error: "DB 조회 실패" });
-      }
+  try {
+    const result = await db.query(
+      `SELECT id, title, description, period, transport_recommendation, access_info, created_at 
+       FROM travel_recommendations 
+       WHERE user_id = $1 
+       ORDER BY created_at DESC`,
+      [userId]
+    );
 
-      const result = rows.map((row) => ({
-        id: row.id,
-        title: row.title,
-        description: row.description,
-        period: row.period,
-        transportRecommendation: row.transport_recommendation,
-        access: JSON.parse(row.access_info || '{}'),
-        created_at: row.created_at,
-      }));
+    const formatted = result.rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      period: row.period,
+      transportRecommendation: row.transport_recommendation,
+      access: row.access_info,
+      created_at: row.created_at,
+    }));
 
-      res.status(200).json(result);
-    }
-  );
+    res.status(200).json(formatted);
+  } catch (err) {
+    console.error("DB 조회 실패:", err.message);
+    res.status(500).json({ error: "DB 조회 실패" });
+  }
 };
