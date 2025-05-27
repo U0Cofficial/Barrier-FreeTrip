@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 const travelRoute = require("./routes/travel"); 
@@ -12,10 +13,9 @@ app.use(express.json());
 app.use("/api/travel", travelRoute);
 
 
-app.listen(3001, () => {
-  console.log("Server running on http://localhost:3001");
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
-
 app.get("/", (req, res) => {
   res.send("✅ 백엔드 서버가 정상적으로 작동 중입니다.");
 });
