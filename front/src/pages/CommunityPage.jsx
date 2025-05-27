@@ -7,7 +7,7 @@ export default function CommunityPage() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/community")
+      .get(`${process.env.REACT_APP_API_URL}/api/community`)
       .then((res) => {
         setTravelData(res.data);
       })

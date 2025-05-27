@@ -25,7 +25,7 @@ export default function CommunityFormPage() {
         tags: formData.tags.split(",").map((tag) => tag.trim()),
         image: formData.image,
       };
-      await axios.post("http://localhost:3001/api/community", payload);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/community`, payload);
       alert("게시글 등록 완료!");
       navigate("/CommunityPage");
     } catch (err) {
