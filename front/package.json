@@ -19,6 +19,7 @@
   },
   "proxy": "http://localhost:3001",
   "scripts": {
+    "clean:cache": "rm -rf node_modules/.cache",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",

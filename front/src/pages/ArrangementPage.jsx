@@ -25,7 +25,7 @@ export default function ArrangementPage() {
   }, [user]);
 
   const renderTrips = (trips) => (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-2 pb-10">
       {trips.map((trip) => (
         <div
           key={trip.id}

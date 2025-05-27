@@ -52,18 +52,7 @@ export default function AccessibleTravelPage() {
         </div>
       </div>
 
-      {/* 편의 기능 버튼들 */}
-      {/* <div className="bg-white py-12 px-6 md:px-20 text-center grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-green-500 text-white py-7 rounded-lg font-semibold text-[34px]">
-          장애인 주차장
-        </div>
-        <div className="bg-green-500 text-white py-7 rounded-lg font-semibold text-[34px]">
-          장애인 화장실
-        </div>
-        <div className="bg-green-500 text-white py-7 rounded-lg font-semibold text-[34px]">
-          숙소 휠체어 접근 가능성
-        </div>
-      </div> */}
+
     </div>
   );
 }
