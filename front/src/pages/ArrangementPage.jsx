@@ -11,8 +11,7 @@ export default function ArrangementPage() {
 
   useEffect(() => {
     if (!user?.id) return;
-
-    fetch(`/api/travel/user/${user.id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/travel/user/${user.id}`)
       .then((res) => res.json())
       .then((data) => {
         setRecommendedTrips(data);
@@ -29,7 +28,9 @@ export default function ArrangementPage() {
       {trips.map((trip) => (
         <div
           key={trip.id}
-          onClick={() => navigate(`/accessible-travel`, { state: { recommendation: trip } })}
+          onClick={() =>
+            navigate(`/accessible-travel`, { state: { recommendation: trip } })
+          }
           className="cursor-pointer border rounded-lg p-6 shadow-sm bg-white hover:shadow-md transition"
         >
           <h2 className="text-2xl font-semibold text-green-600 mb-2">
@@ -67,7 +68,9 @@ export default function ArrangementPage() {
         <p>불러오는 중...</p>
       ) : (
         <>
-          <h2 className="text-2xl font-semibold mt-8 mb-4">🐰 AI의 추천 여행</h2>
+          <h2 className="text-2xl font-semibold mt-8 mb-4">
+            🐰 AI의 추천 여행
+          </h2>
           {recommendedTrips.length > 0 ? (
             renderTrips(recommendedTrips)
           ) : (
