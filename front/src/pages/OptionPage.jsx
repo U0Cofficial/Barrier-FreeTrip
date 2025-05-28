@@ -76,7 +76,7 @@ const OptionPage = () => {
     };
 
     try {
-      const res = await fetch("/api/travel/recommend", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/travel/recommend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
