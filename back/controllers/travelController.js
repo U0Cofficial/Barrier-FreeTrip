@@ -39,8 +39,8 @@ exports.getTravelRecommendation = async (req, res) => {
   {
     "date": "2025-05-01",
     "title": "여행지 이름",
-    "description": "왜 이곳이 적합한지 설명",
-    "transportRecommendation": "추천 이동 수단",
+    "description": "여행지에 대한 설명과 왜 이곳이 적합한지 3문장으로 설명",
+    "transportRecommendation": "추천 이동 수단과 그 이유를 간략하게 설명",
     "access": {
       "장애인 화장실": true | false,
       "장애인 주차장": true | false,
@@ -54,7 +54,7 @@ exports.getTravelRecommendation = async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
     });
 
