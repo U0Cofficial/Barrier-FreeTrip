@@ -21,7 +21,7 @@ exports.getTravelRecommendation = async (req, res) => {
     endDate,
   } = req.body;
 
-  const prompt = `
+const prompt = `
 당신은 장애인 친화 여행 일정을 전문으로 설계하는 AI입니다.
 아래 조건에 따라 **여행 기간 동안 하루에 하나의 여행지**를 추천해 주세요.
 각 날짜마다 **실제 존재하는 장소**를 중심으로 장애인 접근성이 좋은 장소를 추천하고, 추천 이유도 간략히 설명해 주세요.
