@@ -1,3 +1,5 @@
+// AssistancePage 컴포넌트는 사용자에게 여행 중 도움이 필요한 경우 참고할 수 있는 연락처 및 정보를 제공합니다.
+
 import React from "react";
 
 export default function AssistancePage() {
@@ -10,6 +12,7 @@ export default function AssistancePage() {
       </p>
 
       <div className="space-y-4 text-lg text-gray-800 p-3">
+        {/* 전화 지원 정보 */}
         <div>
           <strong>📞 전화 지원:</strong>{" "}
           <a href="tel:1588-0000" className="text-green-600 hover:underline">
@@ -17,6 +20,7 @@ export default function AssistancePage() {
           </a>{" "}
           (운영 시간: 평일 9시 ~ 18시)
         </div>
+        {/* 이메일 문의 정보 */}
         <div>
           <strong>📧 이메일 문의:</strong>{" "}
           <a
@@ -26,6 +30,7 @@ export default function AssistancePage() {
             support@barrierfreetrip.com
           </a>
         </div>
+        {/* FAQ 링크 */}
         <div>
           <strong>💬 자주 묻는 질문:</strong>{" "}
           <a

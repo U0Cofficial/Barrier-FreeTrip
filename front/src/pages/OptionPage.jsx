@@ -1,8 +1,11 @@
+// 여행 추천을 위한 옵션을 선택하는 페이지 컴포넌트
+
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userState } from "../atoms/userAtom";
 import { useNavigate } from "react-router-dom";
 
+// 선택 가능한 옵션 정의
 const options = {
   disabilityTypes: ["하지 장애인"],
   barrierFreeOptions: [
@@ -20,6 +23,7 @@ const options = {
   travelTypes: ["단체 여행", "가족 여행", "커플 여행", "혼자 여행"],
 };
 
+// 각 옵션 섹션을 렌더링하는 컴포넌트
 const SectionSelector = ({ step, title, options, selectedOptions, setSelectedOptions }) => {
   const handleChange = (option) => {
     if (selectedOptions.includes(option)) {
@@ -54,6 +58,8 @@ const SectionSelector = ({ step, title, options, selectedOptions, setSelectedOpt
 
 const OptionPage = () => {
   const [user] = useRecoilState(userState);
+
+  // 선택된 항목 상태 관리
   const [disabilityTypes, setDisabilityTypes] = useState([]);
   const [barrierFreeOptions, setBarrierFreeOptions] = useState([]);
   const [transportOptions, setTransportOptions] = useState([]);
@@ -63,6 +69,7 @@ const OptionPage = () => {
   const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
 
+  // 추천 API 요청
   const handleSubmit = async () => {
     const requestData = {
       userId: user.id,
@@ -88,6 +95,7 @@ const OptionPage = () => {
 
       if (res.ok) {
         console.log("추천 결과:", data);
+        // 추천 결과 페이지로 이동
         navigate("/accessible-travel", { state: { recommendation: data.recommendation } });
       } else {
         alert("추천 실패: " + data.error);
@@ -100,6 +108,7 @@ const OptionPage = () => {
 
   return (
     <div className="bg-gray-100">
+      {/* 상단 배경 및 날짜 입력 */}
       <div className="relative w-full h-[500px] bg-cover bg-gray-200" style={{ backgroundImage: `url("/mainpage2.svg")` }}>
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
@@ -123,7 +132,9 @@ const OptionPage = () => {
         </div>
       </div>
 
+      {/* 선택 폼 영역 */}
       <div className="max-w-3xl mt-10 mx-auto p-6 rounded-lg">
+        {/* 장애 유형 선택 */}
         <SectionSelector
           step="01"
           title="장애유형 선택"
@@ -132,6 +143,7 @@ const OptionPage = () => {
           setSelectedOptions={setDisabilityTypes}
         />
 
+        {/* 여행지 입력 */}
         <div className="p-4 border rounded-lg mb-4 bg-white">
           <h3 className="text-xl font-semibold mb-2">
             <span className="text-green-500 font-bold mr-2">02</span>여행지 선택
@@ -145,6 +157,7 @@ const OptionPage = () => {
           />
         </div>
 
+        {/* 무장애 숙소 옵션 */}
         <SectionSelector
           step="03"
           title="무장애 객실"
@@ -153,6 +166,7 @@ const OptionPage = () => {
           setSelectedOptions={setBarrierFreeOptions}
         />
 
+        {/* 이동 수단 옵션 */}
         <SectionSelector
           step="04"
           title="이동 옵션"
@@ -161,6 +175,7 @@ const OptionPage = () => {
           setSelectedOptions={setTransportOptions}
         />
 
+        {/* 여행 유형 선택 */}
         <SectionSelector
           step="05"
           title="여행 유형"
@@ -169,6 +184,7 @@ const OptionPage = () => {
           setSelectedOptions={setTravelTypes}
         />
 
+        {/* 제출 버튼 */}
         <div className="flex items-center justify-center mt-4">
           <button
             onClick={handleSubmit}

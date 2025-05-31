@@ -23,6 +23,11 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.name || !formData.username || !formData.password) {
+      setMessage("❗ 모든 항목을 입력해주세요.");
+      return;
+    }
+
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
         method: "POST",
