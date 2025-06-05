@@ -14,7 +14,7 @@ const EvaluationPage = () => {
       {/* 지도 시각화를 위한 iframe 삽입 */}
       <div className="w-full max-w-6xl bg-white shadow-xl rounded-lg overflow-hidden">
         <iframe
-          src="/서울_무장애_관광지도2.html" // 로컬 HTML 파일 삽입
+          src="/전국_무장애_관광지도.html" // 로컬 HTML 파일 삽입
           width="100%"
           height="700px"
           style={{ border: "none" }}
